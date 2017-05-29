@@ -15,19 +15,19 @@ public class TopicService {
         this.repository = repository;
     }
 
-    public void addTopic(String content) {
+    public void contribute(String content) {
         Topic toSave = new Topic(content);
         repository.save(toSave);
     }
 
     public void upvote(String id) {
         Topic found = repository.findOne(id);
-        found.setUps(found.getUps() + 1);
+        found.incUp();
     }
 
     public void downvote(String id) {
         Topic found = repository.findOne(id);
-        found.setDowns(found.getDowns() + 1);
+        found.incDown();
     }
 
     public List<Topic> findTop20() {

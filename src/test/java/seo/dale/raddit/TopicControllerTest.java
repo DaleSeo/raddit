@@ -84,9 +84,9 @@ public class TopicControllerTest {
 		byte[] responseBytes = result.getResponse().getContentAsByteArray();
 		Topic found = mapper.readValue(responseBytes, Topic.class);
 
-		assertThat(found)
+		assertThat(found.getId())
 				.as("should have the same topics.")
-				.isEqualTo(testTopic);
+				.isEqualTo(testTopic.getId());
 	}
 
 	@Test

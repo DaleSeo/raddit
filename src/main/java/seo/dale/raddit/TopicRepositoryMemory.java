@@ -18,7 +18,7 @@ public class TopicRepositoryMemory implements TopicRepository {
     }
 
     public TopicRepositoryMemory(Map<String, Topic> topicMap) {
-        this.topicMap = topicMap;
+        this.topicMap = Collections.synchronizedMap(topicMap);
     }
 
     @Override

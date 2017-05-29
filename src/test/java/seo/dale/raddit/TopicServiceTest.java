@@ -25,17 +25,16 @@ public class TopicServiceTest{
     private TopicService service;
 
     @Test
-    public void testAddTopic() {
+    public void testContribute() {
         String toAdd = "test topic content";
         when(repository.save(any(Topic.class))).thenReturn(new Topic(toAdd));
-        service.addTopic(toAdd);
+        service.contribute(toAdd);
         verify(repository).save(any(Topic.class));
     }
 
     @Test
     public void testUpvote() {
-        Topic mockTopic = new Topic("mock topic content");
-        mockTopic.setUps(20);
+        Topic mockTopic = new Topic("mock topic content", 20, 0);
         String mockId = mockTopic.getId();
         when(repository.findOne(mockId)).thenReturn(mockTopic);
 
@@ -54,8 +53,7 @@ public class TopicServiceTest{
 
     @Test
     public void testDownvote() {
-        Topic mockTopic = new Topic("mock topic content");
-        mockTopic.setDowns(30);
+        Topic mockTopic = new Topic("mock topic content", 0, 30);
         String mockId = mockTopic.getId();
         when(repository.findOne(mockId)).thenReturn(mockTopic);
 

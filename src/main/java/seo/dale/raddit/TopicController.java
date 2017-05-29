@@ -35,7 +35,7 @@ public class TopicController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void contribute(@RequestBody String content) {
-		service.addTopic(content);
+		service.contribute(content);
 	}
 
 	/**
