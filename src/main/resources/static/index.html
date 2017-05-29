@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" integrity="sha256-5+W3JHnvGYIJkVxUBsw+jBi9+pOlu9enPX3vZapXj5M=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" integrity="sha256-1hjUhpc44NwiNg8OwMu2QzJXhD8kcj+sJA3aCQZoUjg=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.3"></script>
+  <title>Raddit</title>
+</head>
+<body>
+  <div id="app" class="ui centered container" style="margin: 50px;">
+    <h1 class="ui dividing header">
+      Topics
+    </h1>
+    <form class="ui form" @submit.prevent="addTopic">
+      <div class="ui fluid action input">
+        <input type="text" placeholder="Enter a new topic here..." required v-model="newTopic"/>
+        <button class="ui primary labeled icon button" :class="{loading: inProgress}">
+          <i class="write icon"></i> Add Topic
+        </button>
+      </div>
+    </form>
+    <div class="ui sub header">
+      {{topics.length}} items
+    </div>
+    <div class="ui divided items segment" :class="{loading}">
+      <div class="item" v-for="(topic, index) in topics">
+        <div class="content">
+          <div class="header">
+            <p>{{topic.id}}</p>
+          </div>
+          <div class="meta">
+            <i class="green thumbs up icon"></i> {{topic.ups}}
+            &nbsp;&nbsp;&nbsp;
+            <i class="red thumbs down icon"></i> {{topic.downs}}
+            &nbsp;&nbsp;&nbsp;
+            posted at {{topic.date | formatDate}}
+          </div>
+          <div class="description">
+            <p>{{topic.content}}</p>
+          </div>
+          <div class="ui right aligned basic segment">
+            <button class="ui labeled icon positive button" @click="vote(topic.id, 'up')">
+              <i class="thumbs up icon"></i>
+              Upvote
+            </button>
+            <button class="ui labeled icon negative button" @click="vote(topic.id, 'down')">
+              <i class="thumbs down icon"></i>
+              Downvote
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
