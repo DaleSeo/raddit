@@ -1,6 +1,10 @@
 # Raddit Clone
 
-## How to start
+## Demo
+
+[https://dale-raddit.herokuapp.com](https://dale-raddit.herokuapp.com)
+
+## How to run locally
 
 ```
 $ ./gradlew bootRun
