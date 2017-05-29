@@ -2,10 +2,8 @@ package seo.dale.raddit;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Topic Repository In-memory Implementation
@@ -42,6 +40,16 @@ public class TopicRepositoryMemory implements TopicRepository {
     @Override
     public Long count() {
         return Long.valueOf(topicMap.size());
+    }
+
+    @Override
+    public List<Topic> findTopN(int limit) {
+        return topicMap
+                .values()
+                .stream()
+                .sorted(Comparator.comparing(Topic::getUps).reversed())
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 
 }

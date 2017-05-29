@@ -14,6 +14,12 @@ public class Topic {
     private int downs;
     private Date date;
 
+    public Topic(String content, int ups, int downs) {
+        this(content);
+        this.ups = ups;
+        this.downs = downs;
+    }
+
     public Topic(String content) {
         this();
         this.content = content;

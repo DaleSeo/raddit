@@ -28,4 +28,9 @@ public class TopicRepositoryRedis implements TopicRepository {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public List<Topic> findTopN(int limit) {
+        throw new UnsupportedOperationException();
+    }
+
 }

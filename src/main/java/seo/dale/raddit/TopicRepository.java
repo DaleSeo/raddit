@@ -27,4 +27,9 @@ public interface TopicRepository {
      */
     Long count();
 
+    /**
+     * find top N topics sorted by ups in descending order
+     */
+    List<Topic> findTopN(int limit);
+
 }
