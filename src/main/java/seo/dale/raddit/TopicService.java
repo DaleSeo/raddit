@@ -34,4 +34,8 @@ public class TopicService {
         return repository.findTopN(20);
     }
 
+    public Topic findOne(String id) {
+    	return repository.findOne(id);
+    }
+
 }
