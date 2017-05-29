@@ -32,4 +32,14 @@ public interface TopicRepository {
      */
     List<Topic> findTopN(int size);
 
+    /**
+     * Upvote
+     */
+    void upvote(String id);
+
+    /**
+     * Downvote
+     */
+    void downvote(String id);
+
 }

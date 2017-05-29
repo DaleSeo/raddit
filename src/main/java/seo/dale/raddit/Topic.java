@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Topic Model
+ */
 @Data
 public class Topic {
 
@@ -51,6 +54,10 @@ public class Topic {
 
     public void incDown() {
         downs = downCounter.incrementAndGet();
+    }
+
+    public Weight weight() {
+        return new Weight(ups, id);
     }
 
 }
