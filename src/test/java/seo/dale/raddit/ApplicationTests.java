@@ -1,4 +1,4 @@
-package seo.dale.raddit.demo;
+package seo.dale.raddit;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

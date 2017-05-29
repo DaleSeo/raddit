@@ -1,4 +1,4 @@
-package seo.dale.raddit.demo;
+package seo.dale.raddit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package seo.dale.raddit.demo;
+package seo.dale.raddit;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
