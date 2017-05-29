@@ -3,6 +3,7 @@ package seo.dale.raddit;
 import java.util.List;
 
 /**
+ * Topic Repository Redis Implementation
  * TODO: Implement when Redis is allowed
  */
 public class TopicRepositoryRedis implements TopicRepository {

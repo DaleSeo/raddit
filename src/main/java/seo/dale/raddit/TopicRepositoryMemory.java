@@ -1,13 +1,19 @@
 package seo.dale.raddit;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Topic Repository In-memory Implementation
+ */
+@Component
 public class TopicRepositoryMemory implements TopicRepository {
 
-    private Map<String, Topic> topicMap;
+    private final Map<String, Topic> topicMap;
 
     public TopicRepositoryMemory() {
         this(new HashMap<>());
