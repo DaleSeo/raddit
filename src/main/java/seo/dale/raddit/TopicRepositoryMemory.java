@@ -1,5 +1,6 @@
 package seo.dale.raddit;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,17 +19,18 @@ public class TopicRepositoryMemory implements TopicRepository {
 
     @Override
     public Topic save(Topic topic) {
-        return null;
+        topicMap.put(topic.getId(), topic);
+        return topic;
     }
 
     @Override
     public Topic findOne(String id) {
-        return null;
+        return topicMap.getOrDefault(id, null);
     }
 
     @Override
     public List<Topic> findAll() {
-        return null;
+        return new ArrayList<>(topicMap.values());
     }
 
     @Override
