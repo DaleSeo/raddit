@@ -31,8 +31,7 @@ public class TopicService {
     }
 
     public List<Topic> findTop20() {
-        // TODO: ask repository to sort topics by ups in descending order and return top 20
-        return null;
+        return repository.findTopN(20);
     }
 
 }

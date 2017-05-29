@@ -3,9 +3,7 @@ package seo.dale.raddit;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,36 +14,40 @@ public class TopicRepositoryMemoryTest {
 
     @Before
     public void setUp() {
-        repository = new TopicRepositoryMemory();
+        Map<String, Topic> topicMap = new HashMap<>();
+	    IntStream.range(0, 3)
+			    .boxed()
+			    .forEach(n -> {
+				    Topic topic = new Topic("test");
+			    	topicMap.put(topic.getId(), topic);
+			    });
+    	repository = new TopicRepositoryMemory(topicMap);
+
+	    Long initialCount = repository.count();
+	    assertThat(initialCount)
+			    .as("should 3 topics at the beginning.")
+			    .isEqualTo(3);
     }
 
     @Test
-    public void test() {
-        Long initialCount = repository.count();
-        assertThat(initialCount)
-                .as("should no topics at the beginning.")
-                .isZero();
-
+    public void testSaveAndFind() {
         Topic toSave = new Topic("test topic");
 
         repository.save(toSave);
         assertThat(repository.count())
-                .as("should count 1 after saving a topic.")
-                .isEqualTo(1);
+                .as("should count 4 after saving a topic.")
+                .isEqualTo(4);
 
         Topic found = repository.findOne(toSave.getId());
         assertThat(found)
                 .as("should be equal to each other.")
                 .isEqualTo(toSave);
 
-        repository.save(new Topic("test topic 2"));
-        repository.save(new Topic("test topic 3"));
-
         List<Topic> allTopics = repository.findAll();
 
         assertThat(allTopics)
-                .as("should have the size of 3.")
-                .hasSize(3)
+                .as("should have the size of 4.")
+                .hasSize(4)
                 .as("should contain the first saved topic.")
                 .contains(toSave);
     }
@@ -54,24 +56,30 @@ public class TopicRepositoryMemoryTest {
     public void testFindTopN() {
         Random random = new Random();
 
-        int[] ranUps = IntStream.range(0, 20)
+        int[] randNums = IntStream.range(0, 20)
                 .map(num -> random.nextInt(20))
                 .toArray();
 
-        System.out.println(Arrays.toString(ranUps));
+        IntStream.of(randNums)
+                .forEach(num -> repository.save(new Topic("topic with " + num, num, 0)));
 
-        IntStream.of(ranUps)
-                .forEach(ups -> repository.save(new Topic("topic with " + ups, ups, 0)));
+        List<Topic> top10s = repository.findTopN(10);
 
-        List<Topic> top10 = repository.findTopN(10);
-
-        for (Topic topic : top10) {
-            System.out.println(topic);
-        }
-
-        assertThat(top10)
+        assertThat(top10s)
                 .as("should contain 10 topics.")
                 .hasSize(10);
+
+        int[] sortedRandNums = IntStream.of(randNums)
+		        .boxed()
+		        .sorted(Collections.reverseOrder())
+		        .mapToInt(i -> i)
+		        .toArray();
+
+	    for (int i = 0; i < top10s.size(); i++) {
+		    assertThat(top10s.get(i).getUps())
+				    .as("should be sorted by ups in descending order.")
+				    .isEqualTo(sortedRandNums[i]);
+	    }
     }
 
 }

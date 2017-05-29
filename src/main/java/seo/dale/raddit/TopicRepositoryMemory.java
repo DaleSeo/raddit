@@ -43,12 +43,12 @@ public class TopicRepositoryMemory implements TopicRepository {
     }
 
     @Override
-    public List<Topic> findTopN(int limit) {
+    public List<Topic> findTopN(int size) {
         return topicMap
                 .values()
                 .stream()
                 .sorted(Comparator.comparing(Topic::getUps).reversed())
-                .limit(limit)
+                .limit(size)
                 .collect(Collectors.toList());
     }
 

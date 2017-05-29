@@ -29,7 +29,7 @@ public class TopicRepositoryRedis implements TopicRepository {
     }
 
     @Override
-    public List<Topic> findTopN(int limit) {
+    public List<Topic> findTopN(int size) {
         throw new UnsupportedOperationException();
     }
 

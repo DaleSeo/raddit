@@ -30,6 +30,6 @@ public interface TopicRepository {
     /**
      * find top N topics sorted by ups in descending order
      */
-    List<Topic> findTopN(int limit);
+    List<Topic> findTopN(int size);
 
 }
