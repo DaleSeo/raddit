@@ -11,15 +11,15 @@
   <title>Raddit</title>
 </head>
 <body>
-  <div id="app" class="ui centered container" style="margin: 50px;">
+  <div id="app" class="ui centered text container" style="margin: 30px;">
     <h1 class="ui dividing header">
       Topics
     </h1>
-    <form class="ui form" @submit.prevent="addTopic">
+    <form class="ui form" @submit.prevent="contribute">
       <div class="ui fluid action input">
         <input type="text" placeholder="Enter a new topic here..." required v-model="newTopic"/>
         <button class="ui primary labeled icon button" :class="{loading: inProgress}">
-          <i class="write icon"></i> Add Topic
+          <i class="write icon"></i> Contribute
         </button>
       </div>
     </form>

@@ -13,10 +13,10 @@ new Vue({
     }
   },
   created () {
-    this.loadTopics()
+    this.fetch()
   },
   methods: {
-    loadTopics () {
+    fetch () {
       this.loading = true
       this.$http.get('/topics')
         .then(response => response.data)
@@ -24,15 +24,15 @@ new Vue({
         .catch(window.alert.bind(window))
         .then(_ => this.loading = false)
     },
-    addTopic () {
+    contribute () {
       this.inProgress = true
       this.$http.post('/topics', this.newTopic)
         .then(response => response.data)
         .then(id => `Added ${id}`)
-        .then(window.alert.bind(window))
+        .then(console.log.bind(console))
         .catch(window.alert.bind(window))
         .then(_ => {
-          this.loadTopics()
+          this.fetch()
           this.clearForm()
           this.inProgress = false
         })
@@ -43,7 +43,7 @@ new Vue({
     vote (id, upDown) {
       this.$http.put(`/topics/${id}/${upDown}`)
         .catch(window.alert.bind(window))
-        .then(this.loadTopics)
+        .then(this.fetch)
     }
   }
 })

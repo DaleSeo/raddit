@@ -61,7 +61,7 @@ public class TopicControllerTest {
 
 
 	@Test
-	public void testAddTopic() throws Exception {
+	public void testContribute() throws Exception {
 		mvc.perform(
 				post("/topics")
 						.content("test")
