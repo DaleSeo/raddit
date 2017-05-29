@@ -7,8 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -26,8 +24,7 @@ public class InitialDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-	    File mockData = new ClassPathResource("mock_topics.dat").getFile();
-        Scanner scanner = new Scanner(new FileInputStream(mockData));
+        Scanner scanner = new Scanner(new ClassPathResource("mock_topics.dat").getInputStream());
         Random random = new Random();
         while (scanner.hasNext()) {
             Topic topic = new Topic(scanner.nextLine(), random.nextInt(10), random.nextInt(10));
