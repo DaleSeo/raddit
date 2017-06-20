@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 /**
  * Topic Repository In-memory Implementation
  */
-@Component
+//@Component
 public class TopicRepositoryMemory implements TopicRepository {
 
     /**
