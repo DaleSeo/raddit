@@ -12,6 +12,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,6 +45,45 @@ public class TopicServiceTest{
 			    .isEqualTo(mockTop20s);
 
     	verify(repository).findTopN(20);
+    }
+
+    @Test
+    public void testUpvote() {
+        Topic testTopic = new Topic("mock topic content", 20, 0);
+        when(repository.findOne(testTopic.getId())).thenReturn(testTopic);
+
+        assertThat(testTopic.getUps())
+                .as("Before: should be as it was.")
+                .isEqualTo(20);
+
+        service.upvote(testTopic.getId());
+
+        verify(repository).findOne(testTopic.getId());
+        verify(repository).save(testTopic);
+
+        Topic found = repository.findOne(testTopic.getId());
+        assertThat(found.getUps())
+                .as("After: should be one more.")
+                .isEqualTo(21);
+    }
+
+    @Test
+    public void testDownvote() {
+        Topic testTopic = new Topic("mock topic content", 0, 30);
+        when(repository.findOne(testTopic.getId())).thenReturn(testTopic);
+
+        assertThat(testTopic.getDowns())
+                .as("Before: should be as it was.")
+                .isEqualTo(30);
+
+        service.downvote(testTopic.getId());
+
+        verify(repository).findOne(testTopic.getId());
+        verify(repository).save(testTopic);
+
+        assertThat(testTopic.getDowns())
+                .as("After: should be one more.")
+                .isEqualTo(31);
     }
 
 }

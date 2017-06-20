@@ -21,11 +21,15 @@ public class TopicService {
     }
 
     public void upvote(String id) {
-        repository.upvote(id);
+        Topic found = repository.findOne(id);
+        found.incUp();
+        repository.save(found);
     }
 
     public void downvote(String id) {
-        repository.downvote(id);
+        Topic found = repository.findOne(id);
+        found.incDown();
+        repository.save(found);
     }
 
     public List<Topic> findTop20() {

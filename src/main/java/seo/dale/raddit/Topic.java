@@ -60,4 +60,36 @@ public class Topic {
         return new Weight(ups, id);
     }
 
+    public Topic clone() {
+        Topic topic = new Topic(content, ups, downs);
+        topic.id = this.id;
+        topic.date = this.date;
+        return topic;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Topic topic = (Topic) o;
+
+        if (ups != topic.ups) return false;
+        if (downs != topic.downs) return false;
+        if (!id.equals(topic.id)) return false;
+        if (content != null ? !content.equals(topic.content) : topic.content != null) return false;
+        return date != null ? date.equals(topic.date) : topic.date == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + (content != null ? content.hashCode() : 0);
+        result = 31 * result + ups;
+        result = 31 * result + downs;
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        return result;
+    }
+
 }

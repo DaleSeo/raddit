@@ -33,14 +33,4 @@ public class TopicRepositoryRedis implements TopicRepository {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void upvote(String id) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void downvote(String id) {
-        throw new UnsupportedOperationException();
-    }
-
 }

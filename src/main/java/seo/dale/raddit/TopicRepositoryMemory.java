@@ -46,6 +46,11 @@ public class TopicRepositoryMemory implements TopicRepository {
 
     @Override
     public Topic save(Topic topic) {
+        Topic found = findOne(topic.getId());
+        if (found != null) {
+            weightSet.remove(found.weight()); // remove the old weight form sorted set
+        }
+
         topicMap.put(topic.getId(), topic);
         weightSet.add(topic.weight()); // also add weight to sorted set
         return topic;
@@ -53,7 +58,8 @@ public class TopicRepositoryMemory implements TopicRepository {
 
     @Override
     public Topic findOne(String id) {
-        return topicMap.getOrDefault(id, null);
+        Topic topic = topicMap.get(id);
+        return topic != null ? topic.clone() : null;
     }
 
     @Override
@@ -84,26 +90,6 @@ public class TopicRepositoryMemory implements TopicRepository {
                 .map(Weight::getId)
                 .map(topicMap::get)
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Upvoting affects sorting. Therefore, should keep topics sorted even when upvotes change
-     */
-    @Override
-    public void upvote(String id) {
-        Topic topic = findOne(id);
-        weightSet.remove(topic.weight()); // remove old weight
-        topic.incUp();
-        weightSet.add(topic.weight()); // add new weight
-    }
-
-    /**
-     * Downvoting don't affect sorting
-     */
-    @Override
-    public void downvote(String id) {
-        Topic topic = findOne(id);
-        topic.incDown();
     }
 
 }

@@ -84,36 +84,4 @@ public class TopicRepositoryMemoryTest {
 	    }
     }
 
-    @Test
-    public void testUpvote() {
-        Topic testTopic = new Topic("mock topic content", 20, 0);
-        repository.save(testTopic);
-
-        assertThat(testTopic.getUps())
-                .as("Before: should be as it was.")
-                .isEqualTo(20);
-
-        repository.upvote(testTopic.getId());
-
-        assertThat(testTopic.getUps())
-                .as("After: should be one more.")
-                .isEqualTo(21);
-    }
-
-    @Test
-    public void testDownvote() {
-        Topic testTopic = new Topic("mock topic content", 0, 30);
-        repository.save(testTopic);
-
-        assertThat(testTopic.getDowns())
-                .as("Before: should be as it was.")
-                .isEqualTo(30);
-
-        repository.downvote(testTopic.getId());
-
-        assertThat(testTopic.getDowns())
-                .as("After: should be one more.")
-                .isEqualTo(31);
-    }
-
 }
