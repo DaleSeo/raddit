@@ -8,46 +8,25 @@ import java.util.stream.Collectors;
 /**
  * Topic Repository In-memory Implementation
  */
-//@Component
-public class TopicRepositoryMemory implements TopicRepository {
+@Component
+public class TopicRepositoryPQ implements TopicRepository {
 
     /**
      * Map to maintain all the topic details in memory
      */
     private final Map<String, Topic> topicMap;
 
-    /**
-     * Sorted Set to keep topic IDs sorted by upvotes
-     */
-    private SortedSet<Weight> weightSet;
-
-    public TopicRepositoryMemory() {
+    public TopicRepositoryPQ() {
         this(new HashMap<>());
     }
 
-    public TopicRepositoryMemory(Map<String, Topic> initialMap) {
+    public TopicRepositoryPQ(Map<String, Topic> initialMap) {
         topicMap = Collections.synchronizedMap(initialMap);
-
-        // Set is sorted by upvotes in descending order
-        // If two upvotes are the same, they will be sorted by ids
-        weightSet = Collections.synchronizedSortedSet(
-                new TreeSet<>(
-                    Comparator
-                        .comparing(Weight::getUps)
-                        .thenComparing(Weight::getId)
-                        .reversed()
-                )
-        );
-
-        // load sorted set
-        topicMap.values().stream()
-                .forEach(topic -> weightSet.add(topic.weight()));
     }
 
     @Override
     public Topic save(Topic topic) {
         topicMap.put(topic.getId(), topic);
-        weightSet.add(topic.weight()); // also add weight to sorted set
         return topic;
     }
 
@@ -78,12 +57,24 @@ public class TopicRepositoryMemory implements TopicRepository {
 //                .sorted(Comparator.comparing(Topic::getUps).reversed())
 //                .limit(size)
 //                .collect(Collectors.toList());
-        return weightSet
-                .stream()
-                .limit(size)
-                .map(Weight::getId)
-                .map(topicMap::get)
-                .collect(Collectors.toList());
+
+        Comparator<Topic> comparator = Comparator.comparing(Topic::getUps);
+        Queue<Topic> queue = new PriorityQueue<>(size, comparator);
+        topicMap.values().forEach(topic -> {
+           if (queue.size() < size) {
+               queue.offer(topic);
+           } else if (comparator.compare(queue.peek(), topic) < 0) {
+               queue.poll();
+               queue.offer(topic);
+           }
+        });
+
+        LinkedList<Topic> topN = new LinkedList<>();
+        while (!queue.isEmpty()) {
+            topN.addFirst(queue.poll());
+        }
+
+        return topN;
     }
 
     /**
@@ -92,9 +83,7 @@ public class TopicRepositoryMemory implements TopicRepository {
     @Override
     public void upvote(String id) {
         Topic topic = findOne(id);
-        weightSet.remove(topic.weight()); // remove old weight
         topic.incUp();
-        weightSet.add(topic.weight()); // add new weight
     }
 
     /**
