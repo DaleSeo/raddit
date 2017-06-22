@@ -78,12 +78,32 @@ public class TopicRepositoryMemory implements TopicRepository {
      */
     @Override
     public List<Topic> findTopN(int size) {
+//        // Just sort: O(nlog(n))
 //        return topicMap
 //                .values()
 //                .stream()
 //                .sorted(Comparator.comparing(Topic::getUps).reversed())
 //                .limit(size)
 //                .collect(Collectors.toList());
+
+//        // Min heap: O(nlog(k))
+//        Comparator<Topic> comparator = Comparator.comparing(Topic::getUps);
+//        Queue<Topic> queue = new PriorityQueue<>(size, comparator);
+//        topicMap.values().forEach(topic -> {
+//            if (queue.size() < size) {
+//                queue.offer(topic);
+//            } else if (comparator.compare(queue.peek(), topic) < 0) {
+//                queue.poll();
+//                queue.offer(topic);
+//            }
+//        });
+//
+//        LinkedList<Topic> topN = new LinkedList<>();
+//        while (!queue.isEmpty()) {
+//            topN.addFirst(queue.poll());
+//        }
+//
+//        return topN;
         return weightSet
                 .stream()
                 .limit(size)
