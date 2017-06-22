@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 /**
  * Topic Repository In-memory Implementation
  */
-@Component
+//@Component
 public class TopicRepositoryMemory implements TopicRepository {
 
     /**
@@ -104,6 +104,7 @@ public class TopicRepositoryMemory implements TopicRepository {
 //        }
 //
 //        return topN;
+        // Sorted Set: O(klog(n))
         return weightSet
                 .stream()
                 .limit(size)
