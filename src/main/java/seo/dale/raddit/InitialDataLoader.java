@@ -5,20 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
 
 import java.util.Random;
 import java.util.Scanner;
 
-@Component
+//@Component
 public class InitialDataLoader implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(InitialDataLoader.class);
 
-    private final TopicRepository repository;
+    private final TopicDataRepository repository;
 
     @Autowired
-    public InitialDataLoader(TopicRepository repository) {
+    public InitialDataLoader(TopicDataRepository repository) {
         this.repository = repository;
     }
 

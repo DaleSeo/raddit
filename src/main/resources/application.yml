@@ -1,0 +1,7 @@
+spring:
+  output:
+      ansi:
+        enabled: ALWAYS
+  data:
+    mongodb:
+      uri: mongodb://heroku_0htqx6tn:iui8sso8c65gjg5ehti4jejps0@ds135522.mlab.com:35522/heroku_0htqx6tn

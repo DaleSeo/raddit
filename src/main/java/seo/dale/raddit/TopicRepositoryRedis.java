@@ -2,7 +2,6 @@ package seo.dale.raddit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Topic Repository Redis Implementation
  */
-@Component
+//@Component
 public class TopicRepositoryRedis implements TopicRepository {
 
     private static final String REDIS_KEY = "topics";

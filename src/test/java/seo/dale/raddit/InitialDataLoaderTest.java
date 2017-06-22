@@ -5,9 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +15,7 @@ public class InitialDataLoaderTest {
     private InitialDataLoader dataLoader;
 
     @Mock
-    private TopicRepository repository;
+    private TopicDataRepository repository;
 
     @Before
     public void setUp() {

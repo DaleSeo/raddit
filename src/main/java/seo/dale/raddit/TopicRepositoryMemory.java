@@ -1,7 +1,5 @@
 package seo.dale.raddit;
 
-import org.springframework.stereotype.Component;
-
 import java.util.*;
 import java.util.stream.Collectors;
 

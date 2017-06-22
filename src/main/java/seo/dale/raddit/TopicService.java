@@ -8,10 +8,10 @@ import java.util.List;
 @Component
 public class TopicService {
 
-    private final TopicRepository repository;
+    private final TopicDataRepository repository;
 
     @Autowired
-    public TopicService(TopicRepository repository) {
+    public TopicService(TopicDataRepository repository) {
         this.repository = repository;
     }
 

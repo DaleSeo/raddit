@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.UUID;
@@ -12,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Topic Model
  */
+@Document(collection = "topic")
 @Data
 public class Topic {
 
@@ -23,11 +26,12 @@ public class Topic {
     private String id;
     private String content;
 
-    @Setter(AccessLevel.NONE)
-    private int ups;
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
+    @Indexed
+    private Integer ups;
+    //@Setter(AccessLevel.NONE)
+    private Integer downs;
 
-    private int downs;
     private Date date;
 
     public Topic() {

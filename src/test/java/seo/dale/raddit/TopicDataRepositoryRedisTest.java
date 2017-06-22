@@ -2,33 +2,45 @@ package seo.dale.raddit;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.*;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-public class TopicRepositoryMemoryTest {
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {RedisConfig.class})
+public class TopicDataRepositoryRedisTest {
 
-    private TopicRepository repository;
+    private TopicRepositoryRedis repository;
+
+    @Autowired
+    private RedisOperations<String, String> redisTemplate;
 
     @Before
     public void setUp() {
-        Map<String, Topic> topicMap = new HashMap<>();
-	    IntStream.range(0, 3)
-			    .boxed()
-			    .forEach(n -> {
-				    Topic topic = new Topic("test");
-			    	topicMap.put(topic.getId(), topic);
-			    });
-    	repository = new TopicRepositoryMemory(topicMap);
+        repository = new TopicRepositoryRedis(redisTemplate);
 
-	    Long initialCount = repository.count();
-	    assertThat(initialCount)
-			    .as("should 3 topics at the beginning.")
-			    .isEqualTo(3);
+        Map<String, Topic> topicMap = IntStream.range(0, 3)
+                .boxed()
+                .map(n -> new Topic("test"))
+                .collect(Collectors.toMap(Topic::getId, topic -> topic));
+
+        repository.setTopicMap(topicMap);
+    }
+
+    @Test
+    public void testCount() {
+        Long initialCount = repository.count();
+        assertThat(initialCount)
+                .as("should 3 topics at the beginning.")
+                .isEqualTo(3);
     }
 
     @Test
@@ -72,16 +84,16 @@ public class TopicRepositoryMemoryTest {
                 .hasSize(10);
 
         int[] sortedRandNums = IntStream.of(randNums)
-		        .boxed()
-		        .sorted(Collections.reverseOrder())
-		        .mapToInt(i -> i)
-		        .toArray();
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .mapToInt(i -> i)
+                .toArray();
 
-	    for (int i = 0; i < top10s.size(); i++) {
-		    assertThat(top10s.get(i).getUps())
-				    .as("should be sorted by ups in descending order.")
-				    .isEqualTo(sortedRandNums[i]);
-	    }
+        for (int i = 0; i < top10s.size(); i++) {
+            assertThat(top10s.get(i).getUps())
+                    .as("should be sorted by ups in descending order.")
+                    .isEqualTo(sortedRandNums[i]);
+        }
     }
 
 }
